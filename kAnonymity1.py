@@ -10,53 +10,25 @@ if len(sys.argv) >= 2:
 
 
 names = (
-    'age',
-    'workclass', 
-    'fnlwgt', 
-    'education',
-    'education-num',
-    'marital-status',
-    'occupation',
-    'relationship',
+    'id',
+    'birthdate', 
+    'gender', 
     'race',
-    'sex',
-    'capital-gain',
-    'capital-loss',
-    'hours-per-week',
-    'native-country',
-    'income',
+    'ethnic',
+    'condition',
+    'death',
 )
 
 categorical = set((
-    'workclass',
-    'education',
-#    'marital-status',
-    'occupation',
-    'relationship',
-    'sex',
-    'native-country',
     'race',
-    'income',
+    'ethnic',
+    'condition',
+    'death',
 ))
 
 
 
-if numeric==0:
-    df = pd.read_csv("./data/k-anonymity/adult.all.txt", sep=", ", header=None, names=names, index_col=False, engine='python');
-    categorical = set((
-    'workclass',
-    'education',
-    'marital-status',
-    'occupation',
-    'relationship',
-    'sex',
-    'native-country',
-    'race',
-    'income',
-    ))
-
-else:
-    df = pd.read_csv("./data/k-anonymity/adult.all.txt.before", sep=", ", header=None, names=names, index_col=False, engine='python');
+df = pd.read_csv("./data/k-anonymity/medical.txt", sep=", ", header=None, names=names, index_col=False, engine='python');
 
 #print(df.head())
 
@@ -112,8 +84,8 @@ def partition_dataset(df, feature_columns, sensitive_column, scale, is_valid):
             finished_partitions.append(partition)
     return finished_partitions
 
-feature_columns = ['age', 'education-num', 'marital-status']
-sensitive_column = 'income'
+feature_columns = ['birthdate', 'gender']
+sensitive_column = 'death'
 finished_partitions = partition_dataset(df, feature_columns, sensitive_column, full_spans, is_k_anonymous)
 
 print("finished_partition")
@@ -206,6 +178,7 @@ def build_anonymized_dataset(df, partitions, feature_columns, sensitive_column, 
 
             })
             rows.append(values.copy())
+            print(values.copy())
     return pd.DataFrame(rows)
 
 dfn = build_anonymized_dataset(df, finished_partitions, feature_columns, sensitive_column)
