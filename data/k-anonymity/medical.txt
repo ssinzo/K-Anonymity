@@ -1,0 +1,88 @@
+1, 1923.5, 1, White, Not Hispanic or Latino, Subchronic catatonic schizophrenia, 0
+2, 1943.1, 1, White, Not Hispanic or Latino, End-stage renal disease, 0
+3, 1936.9, 2, White, Not Hispanic or Latino, Pure hypercholesterolemia, 0
+4, 1941.6, 1, No matching concept, Hispanic or Latino, Disorder due to type 1 diabetes mellitus, 0
+5, 1936.8, 1, White, Not Hispanic or Latino, Esophageal varices with bleeding, associated with another disorder, 0
+6, 1943.10, 1, Black or African American, Not Hispanic or Latino, Coronary arteriosclerosis in native artery, 0
+7, 1922.7, 1, White, Not Hispanic or Latino, Arthralgia of the lower leg, 0
+8, 1935.9, 1, White, Not Hispanic or Latino, Varicose veins of lower extremity, 0
+9, 1976.9, 2, White, Not Hispanic or Latino, Actinic keratosis, 0
+10, 1938.10, 2, Black or African American, Not Hispanic or Latino, Malignant neoplasm of corpus uteri, excluding isthmus, 0
+11, 1934.2, 2, White, Not Hispanic or Latino, Congestive heart failure, 0
+12, 1929.6, 1, White, Not Hispanic or Latino, Aplastic anemia, 0
+13, 1936.7, 2, White, Not Hispanic or Latino, Type 2 diabetes mellitus, 0
+14, 1934.5, 1, White, Not Hispanic or Latino, Aneurysm of visceral artery, 0
+15, 1936.3, 2, White, Not Hispanic or Latino, Ganglion of tendon sheath, 0
+17, 1919.9, 2, Black or African American, Not Hispanic or Latino, Chronic peripheral venous hypertension, 0
+18, 1919.10, 2, Black or African American, Not Hispanic or Latino, Aseptic necrosis of bone, 0
+19, 1942.7, 2, White, Not Hispanic or Latino, Anemia of chronic renal failure, 0
+20, 1938.4, 1, White, Not Hispanic or Latino, Senile osteoporosis, 0
+21, 1932.8, 1, Black or African American, Not Hispanic or Latino, Pulmonary embolism, 0
+23, 1932.7, 1, White, Not Hispanic or Latino, Paroxysmal supraventricular tachycardia, 0
+25, 1965.4, 1, White, Not Hispanic or Latino, Acute upper respiratory infection, 0
+27, 1940.4, 2, White, Not Hispanic or Latino, Disuse osteoporosis, 0
+28, 1937.10, 1, White, Not Hispanic or Latino, Fracture of fibula, 0
+29, 1938.4, 1, White, Not Hispanic or Latino, Primary malignant neoplasm of skin of lip, 0
+30, 1959.11, 2, White, Not Hispanic or Latino, Uterovaginal prolapse, 0
+31, 1922.10, 2, White, Not Hispanic or Latino, Coxsackie myocarditis, 0
+32, 1953.12, 2, White, Not Hispanic or Latino, Dependence on enabling machine or device, 0
+33, 1942.6, 2, White, Not Hispanic or Latino, Acquired genu varum, 0
+34, 1919.10, 2, White, Not Hispanic or Latino, Conduction disorder of the heart, 0
+35, 1911.1, 2, White, Not Hispanic or Latino, Recurrent major depressive episodes, mild, 0
+37, 1927.1, 2, White, Not Hispanic or Latino, Lipoma of spermatic cord, 0
+38, 1922.12, 2, White, Not Hispanic or Latino, Primary localized osteoarthrosis of multiple sites, 0
+39, 1938.7, 1, White, Not Hispanic or Latino, Tietze's disease, 0
+40, 1963.10, 2, White, Not Hispanic or Latino, Dependence on enabling machine or device, 0
+41, 1932.2, 1, White, Not Hispanic or Latino, Congestive heart failure, 0
+42, 1943.1, 2, White, Not Hispanic or Latino, Leukemia, 0
+43, 1941.6, 2, White, Not Hispanic or Latino, Precordial pain, 0
+44, 1957.11, 2, White, Not Hispanic or Latino, Vertebral artery syndrome, 0
+46, 1931.1, 1, White, Not Hispanic or Latino, Atrial fibrillation, 0
+48, 1937.8, 2, White, Not Hispanic or Latino, Multiple stiff joints, 0
+51, 1937.10, 2, White, Not Hispanic or Latino, Benign neoplasm of eye, 0
+52, 1948.12, 1, White, Not Hispanic or Latino, Malignant neoplasm of lower lobe, bronchus or lung, 0
+53, 1937.7, 2, White, Not Hispanic or Latino, Chest pain, 0
+54, 1931.2, 1, White, Not Hispanic or Latino, Acute epiglottitis with obstruction, 0
+55, 1924.12, 2, White, Not Hispanic or Latino, Mumps, 0
+56, 1943.10, 1, White, Not Hispanic or Latino, Rheumatism, 0
+57, 1967.2, 2, White, Not Hispanic or Latino, Open wound of larynx with trachea without complication, 0
+58, 1921.9, 2, White, Not Hispanic or Latino, Acute infective exacerbation of chronic obstructive airways disease, 0
+59, 1944.9, 2, White, Not Hispanic or Latino, Anaphylaxis due to fish, 0
+60, 1925.7, 1, White, Not Hispanic or Latino, Bursitis, 0
+61, 1936.3, 1, White, Not Hispanic or Latino, Cystitis associated with another disorder, 0
+62, 1941.2, 2, White, Not Hispanic or Latino, Respiratory symptom, 0
+63, 1964.5, 2, White, Not Hispanic or Latino, Atrial fibrillation, 0
+65, 1936.1, 1, White, Not Hispanic or Latino, Toxic multinodular goiter, 1
+66, 1920.4, 2, White, Not Hispanic or Latino, Toxic effect of noxious substance eaten as food, 0
+67, 1948.11, 1, White, Not Hispanic or Latino, Cataract, 0
+68, 1954.11, 1, Black or African American, Not Hispanic or Latino, Cyst and pseudocyst of pancreas, 0
+70, 1923.1, 1, White, Not Hispanic or Latino, Atrial flutter, 0
+71, 1931.1, 1, Black or African American, Not Hispanic or Latino, Chronic bronchitis, 0
+72, 1933.4, 1, No matching concept, Hispanic or Latino, Pressure ulcer stage 4, 0
+73, 1925.9, 2, White, Not Hispanic or Latino, Osteoarthrosis involving multiple sites but not designated as generalized, 0
+74, 1924.12, 2, White, Not Hispanic or Latino, Thoracic spondylosis with myelopathy, 0
+75, 1932.8, 1, Black or African American, Not Hispanic or Latino, Photodermatitis due to sun, 0
+76, 1938.3, 2, No matching concept, Hispanic or Latino, Cholangitis, 0
+77, 1929.3, 2, White, Not Hispanic or Latino, Senile hyperkeratosis, 0
+79, 1963.1, 2, White, Not Hispanic or Latino, Amphetamine abuse, continuous, 0
+80, 1933.8, 1, White, Not Hispanic or Latino, Herpes zoster with nervous system complication, 0
+81, 1940.6, 2, White, Not Hispanic or Latino, Effusion of joint, 0
+82, 1928.1, 1, White, Not Hispanic or Latino, Coma associated with diabetes mellitus, 0
+83, 1963.5, 2, White, Not Hispanic or Latino, Febrile convulsion, 0
+84, 1939.3, 1, White, Not Hispanic or Latino, Anemia in neoplastic disease, 0
+85, 1937.1, 2, White, Not Hispanic or Latino, Vitamin A deficiency, 0
+86, 1926.10, 2, No matching concept, Not Hispanic or Latino, Anemia of chronic renal failure, 0
+87, 1943.4, 1, White, Not Hispanic or Latino, Pressure ulcer of upper back, 0
+88, 1922.5, 2, White, Not Hispanic or Latino, Empyema with fistula, 0
+89, 1911.6, 2, White, Not Hispanic or Latino, Acute exacerbation of intrinsic asthma, 0
+90, 1925.10, 2, White, Not Hispanic or Latino, Pneumonitis due to inhalation of food or vomitus, 0
+91, 1928.2, 2, White, Not Hispanic or Latino, Paralytic syndrome as late effect of stroke, 0
+92, 1943.8, 1, White, Not Hispanic or Latino, Thyroid hemorrhage and infarction, 0
+93, 1941.4, 1, White, Not Hispanic or Latino, Conduction disorder of the heart, 0
+94, 1925.12, 1, White, Not Hispanic or Latino, Pure hypercholesterolemia, 0
+95, 1931.8, 2, White, Not Hispanic or Latino, Carcinoid tumor of large intestine, 0
+96, 1934.4, 1, No matching concept, Not Hispanic or Latino, Atrophic vaginitis, 0
+97, 1929.5, 1, White, Not Hispanic or Latino, Secondary malignant neoplasm of ovary, 0
+98, 1943.9, 1, White, Not Hispanic or Latino, Inflammatory spondylopathy, 0
+99, 1920.9, 2, White, Not Hispanic or Latino, Extravaginal torsion of spermatic cord, 0
+100, 1934.4, 2, White, Not Hispanic or Latino, Deformity of breast, 0
