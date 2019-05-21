@@ -1,3 +1,8 @@
+# Korea Univ. Term project Page
+Refer from base project. We try to catch up a pre study and apply new corpus.
+and Measure the LM and etc 
+
+
 # K-Anonymity
 
 ### The Anonymization method
