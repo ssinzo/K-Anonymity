@@ -54,17 +54,27 @@ st_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
 
 df = pd.read_csv("./data_convert/data_convert.csv", sep="\t", engine='python');
 
-f = open('./data_partition/ssinzo_k_anonymity.csv', 'rb')
-reader = csv.reader(f)
-finished_partitions = list(reader)
+with open('./data_partition/ssinzo_k_anonymity.csv', 'r') as f:
+    reader = csv.reader(f)
 
-dfn = build_anonymized_dataset(df, finished_partitions, feature_columns, sensitive_column)
+    rows = []
+    for row in reader:
+        cols = []
+        for col in row:
+            cols.append(int(col))
+        rows.append(cols)
 
-ed_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+    finished_partitions = rows
 
-print("============ result ============")
-print("st_time : {}".format(st_timestamp))
-print("ed_time : {}".format(ed_timestamp))
-print("================================")
+    print('total partioin len : {len}'.format(len= len(finished_partitions)))
 
-dfn.to_csv('./data_result/data_result.csv', sep='\t', encoding='utf-8', index=False)
+    dfn = build_anonymized_dataset(df, finished_partitions, feature_columns, sensitive_column)
+
+    ed_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+
+    print("============ result ============")
+    print("st_time : {}".format(st_timestamp))
+    print("ed_time : {}".format(ed_timestamp))
+    print("================================")
+
+    dfn.to_csv('./data_result/data_result.csv', encoding='utf-8', index=False)
