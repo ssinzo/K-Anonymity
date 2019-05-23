@@ -7,10 +7,6 @@ feature_columns = ['birthdate', 'gender', 'race', 'ethnic', 'condition']
 sensitive_column = 'death'
 
 
-def agg_categorical_column(series):
-    return [','.join(set(series))]
-
-
 def agg_numerical_column(series):
     return [series.max()]
 
@@ -38,7 +34,7 @@ def build_anonymized_dataset(df, partitions, feature_columns, sensitive_column, 
         values = grouped_columns.iloc[0].to_dict()
 
         for sensitive_value, count in sensitive_counts[sensitive_column].items():
-            if count == 0:
+            if count < 3:
                 continue
 
             values.update({
@@ -47,6 +43,7 @@ def build_anonymized_dataset(df, partitions, feature_columns, sensitive_column, 
 
             })
             rows.append(values.copy())
+
     return pd.DataFrame(rows)
 
 
@@ -66,7 +63,7 @@ with open('./data_partition/ssinzo_k_anonymity.csv', 'r') as f:
 
     finished_partitions = rows
 
-    print('total partioin len : {len}'.format(len= len(finished_partitions)))
+    print('total partition len : {len}'.format(len= len(finished_partitions)))
 
     dfn = build_anonymized_dataset(df, finished_partitions, feature_columns, sensitive_column)
 

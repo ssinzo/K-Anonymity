@@ -3,7 +3,7 @@ from datetime import datetime
 import csv
 
 
-feature_columns = ['birthdate', 'gender', 'race', 'ethnic', 'condition']
+feature_columns = ['gender', 'race', 'ethnic', 'condition']
 sensitive_column = 'death'
 
 
@@ -11,7 +11,7 @@ def get_spans(df, partition, scale=None):
     spans = {}
 
     for column in df.columns:
-        span = (df[column][partition].max() - df[column][partition].min()) / 2
+        span = int(df[column][partition].max())- int(df[column][partition].min())
 
         if scale is not None:
             span = span / scale[column]
@@ -64,7 +64,9 @@ def partition_dataset(df, feature_columns, is_valid):
 
 st_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
 
-df = pd.read_csv("./data_convert/data_convert.csv", sep="\t", engine='python');
+df = pd.read_csv("./data_convert/data_convert.csv", engine='python')
+
+print(df.head())
 
 finished_partitions = partition_dataset(df, feature_columns, is_k_anonymous)
 
