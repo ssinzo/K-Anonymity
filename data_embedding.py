@@ -39,7 +39,7 @@ for feature_column in feature_columns:
 
         for x, x_bert in zip(column_list, bert_list):
             temp = []
-            temp.append(x_bert)
+            temp.append(x)
 
             for bert in x_bert:
                 temp.append(bert)

@@ -39,7 +39,8 @@ def load_data(file_name, distance_birthdate, dict_condition, dict_ethnic, dict_g
                 elif h == 'race':
                     v = dict_race.get(str.lower(v.replace('-', ' ')))
                 elif h == 'birthdate':
-                    v = distance_birthdate.get(calculate_age(datetime.strptime(v, '%Y-%m-%d')))
+                    v = distance_birthdate.get(str(calculate_age(datetime.strptime(v, '%Y-%m-%d'))))
+
                 columns[h].append(v)
     return pd.DataFrame(columns)
 
