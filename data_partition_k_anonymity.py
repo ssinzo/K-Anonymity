@@ -3,7 +3,7 @@ from datetime import datetime
 import csv
 
 
-feature_columns = ['gender', 'race', 'ethnic', 'condition']
+feature_columns = ['birthdate', 'gender', 'race', 'ethnic', 'condition']
 sensitive_column = 'death'
 
 

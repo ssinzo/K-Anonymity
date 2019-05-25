@@ -1,5 +1,11 @@
 import pandas as pd
 import csv
+from datetime import datetime, date
+
+
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
 
 def load_distance(coloum_name):
@@ -12,7 +18,7 @@ def load_distance(coloum_name):
     return distance_dict
 
 
-def load_data(file_name, dict_condition, dict_ethnic, dict_gender, dict_race):
+def load_data(file_name, distance_birthdate, dict_condition, dict_ethnic, dict_gender, dict_race):
     columns = {}
 
     with open('./data/' + file_name + '.csv', newline='') as f:
@@ -32,6 +38,8 @@ def load_data(file_name, dict_condition, dict_ethnic, dict_gender, dict_race):
                     v = dict_gender.get(str.lower(v.replace('-', ' ')))
                 elif h == 'race':
                     v = dict_race.get(str.lower(v.replace('-', ' ')))
+                elif h == 'birthdate':
+                    v = distance_birthdate.get(calculate_age(datetime.strptime(v, '%Y-%m-%d')))
                 columns[h].append(v)
     return pd.DataFrame(columns)
 
@@ -40,7 +48,10 @@ distance_condition = load_distance('condition')
 distance_ethnic = load_distance('ethnic')
 distance_gender = load_distance('gender')
 distance_race = load_distance('race')
+distance_birthdate = load_distance('birthdate')
 
-df = load_data("finalConditionInfo", distance_condition, distance_ethnic, distance_gender, distance_race)
+
+df = load_data("finalConditionInfo", distance_birthdate, distance_condition, distance_ethnic, distance_gender, distance_race)
 
 df.to_csv('./data_convert/data_convert.csv', encoding='utf-8', index=False)
+

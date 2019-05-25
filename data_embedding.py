@@ -1,28 +1,50 @@
 import pandas as pd
 import csv
-
+from datetime import datetime, date
 from bert_serving.client import BertClient
 
+
+feature_columns = ['birthdate', 'gender', 'race', 'ethnic', 'condition']
+
+
 bc = BertClient()
+df = pd.read_csv("./data/finalConditionInfo.csv", sep=",", index_col=False, engine='python')
 
-df = pd.read_csv("./data/finalConditionInfo.csv", sep=",", index_col=False, engine='python');
 
-condition_list_ori = df['condition'].unique().tolist()
-condition_list = [str.lower(condition.replace('-', ' ')) for condition in condition_list_ori]
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
-print(condition_list)
 
-bert_condition_list = bc.encode(condition_list).tolist()
+for feature_column in feature_columns:
 
-with open('./data_embedding/bert_condition.csv', 'w') as myfile:
-    wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+    if feature_column == 'birthdate':
+        rows = []
 
-    for x_condition, x_bert_condition in zip(condition_list, bert_condition_list):
-        temp = []
-        temp.append(x_condition)
+        for birth in df[feature_column]:
+            rows.append({str(calculate_age(datetime.strptime(birth, '%Y-%m-%d')))})
 
-        for x_bert in x_bert_condition:
+        df_bir = pd.DataFrame(rows, columns=[feature_column])
+        column_list = df_bir[feature_column].unique().tolist()
+    else:
+        v = df[feature_column].unique().tolist()
+        column_list = [str.lower(feature.replace('-', ' ')) for feature in v]
+
+    bert_list = bc.encode(column_list).tolist()
+
+    print('save {x} start'.format(x=feature_column))
+
+    with open('./data_embedding/bert_' + feature_column + '.csv', 'w') as myfile:
+        wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+
+        for x, x_bert in zip(column_list, bert_list):
+            temp = []
             temp.append(x_bert)
 
-        wr.writerow(temp)
-        print("complete {x}".format(x=x_condition))
+            for bert in x_bert:
+                temp.append(bert)
+
+            wr.writerow(temp)
+            print("complete {x}".format(x=x))
+
+    print('complete bert_{x} embedding'.format(x=feature_column))

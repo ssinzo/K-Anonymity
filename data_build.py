@@ -27,6 +27,9 @@ def build_anonymized_dataset(df, partitions, feature_columns, sensitive_column, 
         if max_partitions is not None and i > max_partitions:
             break
 
+        print(partition)
+        print(aggregations)
+
         grouped_columns = df.loc[partition].agg(aggregations, squeeze=False)
 
         sensitive_counts = df.loc[partition].groupby(sensitive_column).agg({sensitive_column: 'count'})
