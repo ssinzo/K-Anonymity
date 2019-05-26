@@ -42,6 +42,6 @@ distance_ethnic = load_distance('ethnic')
 distance_gender = load_distance('gender')
 distance_race = load_distance('race')
 
-df = load_data("data_result1", distance_condition, distance_ethnic, distance_gender, distance_race)
+df = load_data("data_result", distance_condition, distance_ethnic, distance_gender, distance_race)
 
 df.to_csv('./data_recover/data_recover.csv', encoding='utf-8', index=False)

@@ -1,5 +1,6 @@
 import pandas as pd
 from datetime import datetime
+import csv
 
 
 feature_columns = ['birthdate', 'gender', 'race', 'ethnic', 'condition']
@@ -10,7 +11,7 @@ def get_spans(df, partition, scale=None):
     spans = {}
 
     for column in df.columns:
-        span = (df[column][partition].max() - df[column][partition].min()) / 2
+        span = int(df[column][partition].max())- int(df[column][partition].min())
 
         if scale is not None:
             span = span / scale[column]
@@ -61,51 +62,11 @@ def partition_dataset(df, feature_columns, is_valid):
     return finished_partitions
 
 
-def agg_categorical_column(series):
-    return [','.join(set(series))]
-
-
-def agg_numerical_column(series):
-    return [series.max()]
-
-
-def build_anonymized_dataset(df, partitions, feature_columns, sensitive_column, max_partitions=None):
-    aggregations = {}
-
-    for column in feature_columns:
-        aggregations[column] = agg_numerical_column
-
-    rows = []
-
-    for i, partition in enumerate(partitions):
-
-        if not i % 1000:
-            print("Finished {} partitions...".format(i))
-
-        if max_partitions is not None and i > max_partitions:
-            break
-
-        grouped_columns = df.loc[partition].agg(aggregations, squeeze=False)
-
-        sensitive_counts = df.loc[partition].groupby(sensitive_column).agg({sensitive_column: 'count'})
-
-        values = grouped_columns.iloc[0].to_dict()
-
-        for sensitive_value, count in sensitive_counts[sensitive_column].items():
-            if count == 0:
-                continue
-
-            values.update({
-                sensitive_column: sensitive_value,
-                'count': count,
-
-            })
-            rows.append(values.copy())
-    return pd.DataFrame(rows)
-
 st_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
 
-df = pd.read_csv("./data_convert/data_convert.csv", sep="\t", engine='python');
+df = pd.read_csv("./data_convert/data_convert.csv", engine='python')
+
+print(df.head())
 
 finished_partitions = partition_dataset(df, feature_columns, is_k_anonymous)
 
@@ -117,15 +78,13 @@ print("ed_time : {}".format(ed_timestamp))
 print("finished_partition len : {len}".format(len= len(finished_partitions)))
 print("================================")
 
-st_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+with open('./data_partition/ssinzo_k_anonymity.csv', 'w') as myfile:
+    wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
 
-dfn = build_anonymized_dataset(df, finished_partitions, feature_columns, sensitive_column)
+    idx = 0
+    for partition in finished_partitions:
+        wr.writerow(partition)
+        idx += 1
 
-ed_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
-
-print("============ result ============")
-print("st_time : {}".format(st_timestamp))
-print("ed_time : {}".format(ed_timestamp))
-print("================================")
-
-dfn.to_csv('./data_result/data_result.csv', sep='\t', encoding='utf-8', index=False)
+        if not idx%100 :
+            print("complete partition at {x}".format(x=idx))
