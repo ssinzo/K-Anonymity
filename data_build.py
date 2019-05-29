@@ -11,7 +11,7 @@ def agg_numerical_column(series):
     return [series.max()]
 
 
-def build_anonymized_dataset(df, partitions, feature_columns, sensitive_column, max_partitions=None):
+def build_anonymity_dataset(df, partitions, max_partitions=None):
     aggregations = {}
 
     for column in feature_columns:
@@ -26,9 +26,6 @@ def build_anonymized_dataset(df, partitions, feature_columns, sensitive_column, 
 
         if max_partitions is not None and i > max_partitions:
             break
-
-        print(partition)
-        print(aggregations)
 
         grouped_columns = df.loc[partition].agg(aggregations, squeeze=False)
 
@@ -52,7 +49,7 @@ def build_anonymized_dataset(df, partitions, feature_columns, sensitive_column, 
 
 st_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
 
-df = pd.read_csv("./data_convert/data_convert.csv", sep="\t", engine='python');
+df = pd.read_csv("./data_convert/data_convert.csv", sep=",", engine='python')
 
 with open('./data_partition/ssinzo_k_anonymity.csv', 'r') as f:
     reader = csv.reader(f)
@@ -68,7 +65,7 @@ with open('./data_partition/ssinzo_k_anonymity.csv', 'r') as f:
 
     print('total partition len : {len}'.format(len= len(finished_partitions)))
 
-    dfn = build_anonymized_dataset(df, finished_partitions, feature_columns, sensitive_column)
+    dfn = build_anonymity_dataset(df, finished_partitions)
 
     ed_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
 
