@@ -12,8 +12,15 @@ def load_distance(coloum_name):
     return distance_dict
 
 
-def load_data(file_name, dict_birthdate, dict_condition, dict_ethnic, dict_gender, dict_race):
+def load_data(file_name):
+
     columns = {}
+    distance_age = load_distance('AGE')
+    distance_race = load_distance('RACE')
+    distance_ethnicity = load_distance('ETHNICITY')
+    distance_gender = load_distance('GENDER')
+    distance_birthplace = load_distance('BIRTHPLACE')
+    distance_condition = load_distance('CONDITION')
 
     with open('./data_result/' + file_name + '.csv') as f:
         reader = csv.reader(f, dialect='excel', delimiter='\t')
@@ -24,47 +31,46 @@ def load_data(file_name, dict_birthdate, dict_condition, dict_ethnic, dict_gende
 
         for row in reader:
             for h, v in zip(headers, row):
-                if h == 'condition':
+                if h == 'CONDITION':
                     ret = []
                     for val in v.split(','):
-                        val_recover = dict_condition.get(round(float(val), 5))
+                        val_recover = distance_condition.get(round(float(val), 5))
                         ret.append(val_recover)
                     v = ','.join(ret)
-                elif h == 'ethnic':
+                elif h == 'RACE':
                     ret = []
                     for val in v.split(','):
-                        val_recover = dict_ethnic.get(round(float(val), 5))
+                        val_recover = distance_race.get(round(float(val), 5))
                         ret.append(val_recover)
                     v = ','.join(ret)
-                elif h == 'gender':
+                elif h == 'ETHNICITY':
                     ret = []
                     for val in v.split(','):
-                        val_recover = dict_gender.get(round(float(val), 5))
+                        val_recover = distance_ethnicity.get(round(float(val), 5))
                         ret.append(val_recover)
                     v = ','.join(ret)
-                elif h == 'race':
+                elif h == 'GENDER':
                     ret = []
                     for val in v.split(','):
-                        val_recover = dict_race.get(round(float(val), 5))
+                        val_recover = distance_gender.get(round(float(val), 5))
                         ret.append(val_recover)
                     v = ','.join(ret)
-                elif h == 'birthdate':
+                elif h == 'BIRTHPLACE':
                     ret = []
                     for val in v.split(','):
-                        val_recover = dict_birthdate.get(round(float(val), 5))
+                        val_recover = distance_birthplace.get(round(float(val), 5))
                         ret.append(val_recover)
-                    v = '{x}-{y}'.format(x=val_recover[0], y=val_recover[1])
+                    v = ','.join(ret)
+                elif h == 'AGE':
+                    ret = []
+                    for val in v.split(','):
+                        val_recover = distance_age.get(round(float(val), 5))
+                        ret.append(val_recover)
+                    v = '{x}-{y}'.format(x=ret[0], y=ret[1])
 
                 columns[h].append(v)
     return pd.DataFrame(columns)
 
-
-distance_birthdate = load_distance('birthdate')
-distance_condition = load_distance('condition')
-distance_ethnic = load_distance('ethnic')
-distance_gender = load_distance('gender')
-distance_race = load_distance('race')
-
-df = load_data("data_result", distance_birthdate, distance_condition, distance_ethnic, distance_gender, distance_race)
+df = load_data("data_result")
 
 df.to_csv('./data_recover/data_recover.csv', encoding='utf-8', index=False)

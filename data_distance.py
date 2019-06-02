@@ -1,7 +1,7 @@
 from scipy import spatial
 import csv
 
-feature_columns = ['birthdate', 'gender', 'race', 'ethnic', 'condition']
+feature_columns = ['AGE', 'RACE', 'ETHNICITY', 'GENDER', 'BIRTHPLACE', 'CONDITION', 'DEATH']
 
 for column in feature_columns:
 

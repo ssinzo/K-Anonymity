@@ -2,10 +2,9 @@ import pandas as pd
 import csv
 from datetime import datetime
 
-
-feature_columns = ['birthdate', 'gender', 'race', 'ethnic', 'condition']
-categorical_feature_columns = ['condition']
-sensitive_column = 'death'
+feature_columns = ['AGE', 'RACE', 'ETHNICITY', 'GENDER', 'BIRTHPLACE', 'CONDITION']
+categorical_feature_columns = ['RACE', 'ETHNICITY', 'GENDER', 'BIRTHPLACE', 'CONDITION']
+sensitive_column = 'DEATH'
 
 
 def agg_numerical_column(series):

@@ -1,34 +1,16 @@
 import pandas as pd
 import csv
-from datetime import datetime, date
 from bert_serving.client import BertClient
 
-
-feature_columns = ['birthdate', 'gender', 'race', 'ethnic', 'condition']
-
-
 bc = BertClient()
-df = pd.read_csv("./data/finalConditionInfo.csv", sep=",", index_col=False, engine='python')
+feature_columns = ['AGE', 'RACE', 'ETHNICITY', 'GENDER', 'BIRTHPLACE', 'CONDITION', 'DEATH']
 
-
-def calculate_age(born):
-    today = date.today()
-    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-
+df = pd.read_csv("./data/finalPatientDataSet.csv", sep="\t", index_col=False, engine='python')
 
 for feature_column in feature_columns:
 
-    if feature_column == 'birthdate':
-        rows = []
-
-        for birth in df[feature_column]:
-            rows.append({str(calculate_age(datetime.strptime(birth, '%Y-%m-%d')))})
-
-        df_bir = pd.DataFrame(rows, columns=[feature_column])
-        column_list = df_bir[feature_column].unique().tolist()
-    else:
-        v = df[feature_column].unique().tolist()
-        column_list = [str.lower(feature.replace('-', ' ')) for feature in v]
+    v = df[feature_column].unique().tolist()
+    column_list = [str(feature) for feature in v]
 
     bert_list = bc.encode(column_list).tolist()
 

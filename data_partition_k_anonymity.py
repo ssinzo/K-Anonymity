@@ -3,8 +3,8 @@ from datetime import datetime
 import csv
 
 
-feature_columns = ['birthdate', 'gender', 'race', 'ethnic', 'condition']
-sensitive_column = 'death'
+feature_columns = ['AGE', 'RACE', 'ETHNICITY', 'GENDER', 'BIRTHPLACE', 'CONDITION']
+sensitive_column = 'DEATH'
 
 
 def get_spans(df, partition, scale=None):
