@@ -15,8 +15,8 @@ def load_distance(coloum_name):
 def load_data(file_name, dict_birthdate, dict_condition, dict_ethnic, dict_gender, dict_race):
     columns = {}
 
-    with open('./data_result/' + file_name + '.csv', newline='') as f:
-        reader = csv.reader(f)
+    with open('./data_result/' + file_name + '.csv') as f:
+        reader = csv.reader(f, dialect='excel', delimiter='\t')
         headers = next(reader, None)
 
         for h in headers:
@@ -25,18 +25,39 @@ def load_data(file_name, dict_birthdate, dict_condition, dict_ethnic, dict_gende
         for row in reader:
             for h, v in zip(headers, row):
                 if h == 'condition':
-                    v = dict_condition.get(round(float(v), 5))
+                    ret = []
+                    for val in v.split(','):
+                        val_recover = dict_condition.get(round(float(val), 5))
+                        ret.append(val_recover)
+                    v = ','.join(ret)
                 elif h == 'ethnic':
-                    v = dict_ethnic.get(round(float(v), 5))
+                    ret = []
+                    for val in v.split(','):
+                        val_recover = dict_ethnic.get(round(float(val), 5))
+                        ret.append(val_recover)
+                    v = ','.join(ret)
                 elif h == 'gender':
-                    v = dict_gender.get(round(float(v), 5))
+                    ret = []
+                    for val in v.split(','):
+                        val_recover = dict_gender.get(round(float(val), 5))
+                        ret.append(val_recover)
+                    v = ','.join(ret)
                 elif h == 'race':
-                    v = dict_race.get(round(float(v), 5))
+                    ret = []
+                    for val in v.split(','):
+                        val_recover = dict_race.get(round(float(val), 5))
+                        ret.append(val_recover)
+                    v = ','.join(ret)
                 elif h == 'birthdate':
-                    v = dict_birthdate.get(round(float(v), 5))
+                    ret = []
+                    for val in v.split(','):
+                        val_recover = dict_birthdate.get(round(float(val), 5))
+                        ret.append(val_recover)
+                    v = '{x}-{y}'.format(x=val_recover[0], y=val_recover[1])
 
                 columns[h].append(v)
     return pd.DataFrame(columns)
+
 
 distance_birthdate = load_distance('birthdate')
 distance_condition = load_distance('condition')

@@ -4,25 +4,42 @@ from datetime import datetime
 
 
 feature_columns = ['birthdate', 'gender', 'race', 'ethnic', 'condition']
+categorical_feature_columns = ['condition']
 sensitive_column = 'death'
 
 
 def agg_numerical_column(series):
-    return [series.max()]
+    return ['{x},{y}'.format(x=series.min(), y=series.max())]
+
+
+def agg_categorical_column(series):
+    val = []
+
+    for x in series.values:
+        if x not in val:
+            val.append(x)
+
+    ret = ','.join([str(x) for x in val])
+
+    return ret
 
 
 def build_anonymity_dataset(df, partitions, max_partitions=None):
     aggregations = {}
 
     for column in feature_columns:
-        aggregations[column] = agg_numerical_column
+        if column in categorical_feature_columns:
+            aggregations[column] = agg_categorical_column
+        else:
+            aggregations[column] = agg_numerical_column
 
     rows = []
+    save_columns = None
 
     for i, partition in enumerate(partitions):
 
         if not i % 1000:
-            print("Finished {} partitions...".format(i))
+            print("{t} : Finished {i} partitions...".format(i=i, t=datetime.now().strftime('%H:%M:%S')))
 
         if max_partitions is not None and i > max_partitions:
             break
@@ -31,27 +48,27 @@ def build_anonymity_dataset(df, partitions, max_partitions=None):
 
         sensitive_counts = df.loc[partition].groupby(sensitive_column).agg({sensitive_column: 'count'})
 
-        values = grouped_columns.iloc[0].to_dict()
-
         for sensitive_value, count in sensitive_counts[sensitive_column].items():
             if count < 3:
                 continue
 
-            values.update({
-                sensitive_column: sensitive_value,
-                'count': count,
+            grouped_columns[sensitive_column] = sensitive_value
+            grouped_columns['count'] = count
 
-            })
-            rows.append(values.copy())
+            rows.append(data[0] for data in grouped_columns.to_dict('list').values())
+            save_columns = grouped_columns.columns
 
-    return pd.DataFrame(rows)
+    print("{t} : Finished partitions...".format(t=datetime.now().strftime('%H:%M:%S')))
 
+    return pd.DataFrame(rows, columns=save_columns)
 
-st_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
 
 df = pd.read_csv("./data_convert/data_convert.csv", sep=",", engine='python')
 
 with open('./data_partition/ssinzo_k_anonymity.csv', 'r') as f:
+
+    st_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+
     reader = csv.reader(f)
 
     rows = []
@@ -65,7 +82,7 @@ with open('./data_partition/ssinzo_k_anonymity.csv', 'r') as f:
 
     print('total partition len : {len}'.format(len= len(finished_partitions)))
 
-    dfn = build_anonymity_dataset(df, finished_partitions)
+    finished_df = build_anonymity_dataset(df, finished_partitions)
 
     ed_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
 
@@ -74,4 +91,4 @@ with open('./data_partition/ssinzo_k_anonymity.csv', 'r') as f:
     print("ed_time : {}".format(ed_timestamp))
     print("================================")
 
-    dfn.to_csv('./data_result/data_result.csv', encoding='utf-8', index=False)
+    finished_df.to_csv('./data_result/data_result.csv', sep='\t', index=False)
