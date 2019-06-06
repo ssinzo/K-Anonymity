@@ -1,20 +1,20 @@
 from scipy import spatial
 import csv
 
-feature_columns = ['AGE', 'RACE', 'ETHNICITY', 'GENDER', 'BIRTHPLACE', 'CONDITION', 'DEATH']
+feature_columns = ['AGE', 'RACE', 'ETHNICITY', 'GENDER', 'BIRTHPLACE', 'CONDITION']
 
 for column in feature_columns:
 
     data = []
 
-    with open('./data_embedding/bert_' + column + '.csv') as csvfile:
-        reader = csv.reader(csvfile)
+    with open('./data_embedding/embedding_' + column + '.csv') as csvfile:
+        reader = csv.reader(csvfile, delimiter='\t')
 
         for row in reader:
             row_data = []
             for i in range(len(row)):
                 if i == 0:
-                    row_data.append(row[i])
+                    row_data.append(str(row[i]))
                 else:
                     row_data.append(float(row[i]))
             data.append(row_data)
@@ -23,7 +23,7 @@ for column in feature_columns:
     val_list = []
     for i in range(len(data)):
         key_list.append(data[i][0])
-        val_list.append(data[i][1:len(data[i])])
+        val_list.append(data[i][1:])
 
     x = key_list[0]
     x_bert = val_list[0]
@@ -31,13 +31,16 @@ for column in feature_columns:
     print('save {x} start'.format(x=column))
 
     with open('./data_distance/distance_' + column + '.csv', 'w') as myfile:
-        wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+        wr = csv.writer(myfile, delimiter='\t')
 
         for y, y_bert in zip(key_list, val_list):
             temp = []
             temp.append(x)
             temp.append(y)
-            temp.append(1 - spatial.distance.cosine(x_bert, y_bert))
+            print(x_bert)
+            print(y_bert)
+            print(1 - spatial.distance.cosine(x_bert, y_bert))
+            temp.append(round(1 - spatial.distance.cosine(x_bert, y_bert), 6))
 
             wr.writerow(temp)
 

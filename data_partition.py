@@ -11,7 +11,7 @@ def get_spans(df, partition, scale=None):
     spans = {}
 
     for column in df.columns:
-        span = int(df[column][partition].max())- int(df[column][partition].min())
+        span = int(df[column][partition].max()) - int(df[column][partition].min())
 
         if scale is not None:
             span = span / scale[column]
@@ -24,8 +24,8 @@ def get_spans(df, partition, scale=None):
 def split(df, partition, column):
     dfp = df[column][partition]
     median = dfp.median()
-    dfl = dfp.index[dfp <= median]
-    dfr = dfp.index[dfp > median]
+    dfl = dfp.index[dfp < median]
+    dfr = dfp.index[dfp >= median]
 
     return (dfl, dfr)
 
@@ -34,7 +34,7 @@ def is_k_anonymous(partition, k=3):
     return False if len(partition) < k else True
 
 
-def partition_dataset(df, feature_columns, is_valid):
+def partition_dataset(df, feature_columns, scale, is_valid):
     finished_partitions = []
     partitions = [df.index]
 
@@ -42,9 +42,9 @@ def partition_dataset(df, feature_columns, is_valid):
 
     while partitions:
         partition = partitions.pop(0)
-        spans = get_spans(df[feature_columns], partition)
+        spans = get_spans(df[feature_columns], partition, scale)
 
-        for column, span in sorted(spans.items(), key= lambda x: x[1]): #낮은값 높은값
+        for column, span in sorted(spans.items(), key= lambda x: -x[1]): #낮은값 높은값
             lp, rp = split(df, partition, column)
 
             if not idx % 1000 :
@@ -64,11 +64,13 @@ def partition_dataset(df, feature_columns, is_valid):
 
 st_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
 
-df = pd.read_csv("./data_convert/data_convert.csv", engine='python')
+df = pd.read_csv("./data_convert/convert_finalPatientDataSet_20.csv", sep="\t", engine='python')
 
 print(df.head())
 
-finished_partitions = partition_dataset(df, feature_columns, is_k_anonymous)
+full_spans = get_spans(df, df.index)
+
+finished_partitions = partition_dataset(df, feature_columns, full_spans, is_k_anonymous)
 
 ed_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
 
@@ -78,8 +80,8 @@ print("ed_time : {}".format(ed_timestamp))
 print("finished_partition len : {len}".format(len= len(finished_partitions)))
 print("================================")
 
-with open('./data_partition/ssinzo_k_anonymity.csv', 'w') as myfile:
-    wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+with open('./data_partition/partition_bert.csv', 'w') as myfile:
+    wr = csv.writer(myfile, delimiter='\t')
 
     idx = 0
     for partition in finished_partitions:

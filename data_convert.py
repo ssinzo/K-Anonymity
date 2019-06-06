@@ -5,7 +5,7 @@ import csv
 def load_distance(coloum_name):
     distance_dict = dict()
     with open('./data_distance/distance_' + coloum_name + ".csv", newline='') as csvfile:
-        reader = csv.reader(csvfile)
+        reader = csv.reader(csvfile, delimiter='\t')
 
         for row in reader:
             distance_dict.update({row[1]: row[2]})
@@ -49,6 +49,6 @@ def load_data(file_name):
     return pd.DataFrame(columns)
 
 
-df = load_data("finalPatientDataSet")
-df.to_csv('./data_convert/data_convert.csv', encoding='utf-8', index=False)
+df = load_data("finalPatientDataSet_20")
+df.to_csv('./data_convert/convert_finalPatientDataSet_20.csv', sep='\t', encoding='utf-8', index=False)
 

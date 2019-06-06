@@ -8,13 +8,23 @@ sensitive_column = 'DEATH'
 
 
 def agg_numerical_column(series):
-    return ['{x},{y}'.format(x=series.min(), y=series.max())]
+    val = []
+
+    for x in series.values:
+        x = round(x, 6)
+
+        if x not in val:
+            val.append(x)
+
+    return val
 
 
 def agg_categorical_column(series):
     val = []
 
     for x in series.values:
+        x = round(x, 6)
+
         if x not in val:
             val.append(x)
 
@@ -36,7 +46,6 @@ def build_anonymity_dataset(df, partitions, max_partitions=None):
     save_columns = None
 
     for i, partition in enumerate(partitions):
-
         if not i % 1000:
             print("{t} : Finished {i} partitions...".format(i=i, t=datetime.now().strftime('%H:%M:%S')))
 
@@ -47,28 +56,31 @@ def build_anonymity_dataset(df, partitions, max_partitions=None):
 
         sensitive_counts = df.loc[partition].groupby(sensitive_column).agg({sensitive_column: 'count'})
 
+        values = grouped_columns.iloc[0].to_dict()
+
         for sensitive_value, count in sensitive_counts[sensitive_column].items():
-            if count < 3:
+            if count == 0:
                 continue
 
-            grouped_columns[sensitive_column] = sensitive_value
-            grouped_columns['count'] = count
+            values.update({
+                sensitive_column: sensitive_value,
+                'count': count,
+            })
 
-            rows.append(data[0] for data in grouped_columns.to_dict('list').values())
-            save_columns = grouped_columns.columns
+            rows.append(values.copy())
 
     print("{t} : Finished partitions...".format(t=datetime.now().strftime('%H:%M:%S')))
 
     return pd.DataFrame(rows, columns=save_columns)
 
 
-df = pd.read_csv("./data_convert/data_convert.csv", sep=",", engine='python')
+df = pd.read_csv("./data_convert/convert_finalPatientDataSet_20.csv", sep="\t", engine='python')
 
-with open('./data_partition/ssinzo_k_anonymity.csv', 'r') as f:
+with open('./data_partition/partition_bert.csv', 'r') as f:
 
     st_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
 
-    reader = csv.reader(f)
+    reader = csv.reader(f, delimiter='\t')
 
     rows = []
     for row in reader:
@@ -90,4 +102,4 @@ with open('./data_partition/ssinzo_k_anonymity.csv', 'r') as f:
     print("ed_time : {}".format(ed_timestamp))
     print("================================")
 
-    finished_df.to_csv('./data_result/data_result.csv', sep='\t', index=False)
+    finished_df.to_csv('./data_build/build_bert.csv', sep='\t', index=False)
