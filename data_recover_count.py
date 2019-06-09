@@ -39,8 +39,6 @@ def recover(filename, dataset):
             wr.writerow(row)
 
 
-mond_dataset_ori  = readCSV('./data_recover/original_moned_DataSet.csv', sep='\t')
 mond_dataset_bert = readCSV('./data_recover/recover_bert.csv', sep='\t')
 
-recover('recover_origin_wc', mond_dataset_ori)
 recover('recover_bert_wc', mond_dataset_bert)
