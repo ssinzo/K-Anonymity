@@ -3,7 +3,7 @@ import csv
 from bert_serving.client import BertClient
 
 bc = BertClient()
-feature_columns = ['AGE', 'RACE', 'ETHNICITY', 'GENDER', 'BIRTHPLACE', 'CONDITION']
+feature_columns = ['RACE', 'ETHNICITY', 'GENDER', 'BIRTHPLACE', 'CONDITION']
 
 df = pd.read_csv("./data/finalPatientDataSet_20.csv", sep="\t", index_col=False, engine='python')
 

@@ -11,7 +11,7 @@ def get_spans(df, partition, scale=None):
     spans = {}
 
     for column in df.columns:
-        span = int(df[column][partition].max()) - int(df[column][partition].min())
+        span = float(df[column][partition].max()) - float(df[column][partition].min())
 
         if scale is not None:
             span = span / scale[column]
@@ -42,20 +42,24 @@ def partition_dataset(df, feature_columns, scale, is_valid):
 
     while partitions:
         partition = partitions.pop(0)
-        spans = get_spans(df[feature_columns], partition, scale)
+        span = get_spans(df[feature_columns], partition, scale)
 
-        for column, span in sorted(spans.items(), key= lambda x: -x[1]): #낮은값 높은값
+        spans_sort = sorted(span.items(), key=lambda x: -x[1])
+
+        for column, span in spans_sort: #낮은값 높은값
             lp, rp = split(df, partition, column)
-
-            if not idx % 1000 :
-                print("{idx} : {column} [lp.len : {x}, rp.len : {y}]".format(idx= idx, column= column, x= len(lp), y= len(rp)))
-            idx = idx + 1
 
             if not is_valid(lp) or not is_valid(rp):
                 continue
+            else:
 
-            partitions.extend((lp, rp))
-            break
+                if not idx % 1000 :
+                    print("{idx} : {column} [lp.len : {x}, rp.len : {y}]".format(idx= idx, column= column, x= len(lp), y= len(rp)))
+                    print('spans_sort', spans_sort)
+                idx = idx + 1
+
+                partitions.extend((lp, rp))
+                break
         else:
             finished_partitions.append(partition)
 
@@ -66,13 +70,13 @@ st_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
 
 df = pd.read_csv("./data_convert/convert_finalPatientDataSet_20.csv", sep="\t", engine='python')
 
-print(df.head())
-
 full_spans = get_spans(df, df.index)
+
+print('full_spans', full_spans)
 
 finished_partitions = partition_dataset(df, feature_columns, full_spans, is_k_anonymous)
 
-ed_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+ed_timestamp = datetime.now().strftime('%Y%m%d-%H  %M%S')
 
 print("============ result ============")
 print("st_time : {}".format(st_timestamp))

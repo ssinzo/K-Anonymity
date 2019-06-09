@@ -1,7 +1,7 @@
 from scipy import spatial
 import csv
 
-feature_columns = ['AGE', 'RACE', 'ETHNICITY', 'GENDER', 'BIRTHPLACE', 'CONDITION']
+feature_columns = ['RACE', 'ETHNICITY', 'GENDER', 'BIRTHPLACE', 'CONDITION']
 
 for column in feature_columns:
 
@@ -37,10 +37,10 @@ for column in feature_columns:
             temp = []
             temp.append(x)
             temp.append(y)
-            print(x_bert)
-            print(y_bert)
-            print(1 - spatial.distance.cosine(x_bert, y_bert))
-            temp.append(round(1 - spatial.distance.cosine(x_bert, y_bert), 6))
+
+            #temp.append(round(1 - spatial.distance.cosine(x_bert, y_bert), 6))
+            temp.append(round(1 - spatial.distance.cityblock(x_bert, y_bert), 6))
+            #temp.append(round(1 - spatial.distance.euclidean(x_bert, y_bert), 6))
 
             wr.writerow(temp)
 

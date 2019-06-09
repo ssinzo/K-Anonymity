@@ -2,10 +2,10 @@ import pandas as pd
 import csv
 
 
-def load_distance(coloum_name):
+def load_distance(column_name):
     distance_dict = dict()
-    with open('./data_distance/distance_' + coloum_name + ".csv", newline='') as csvfile:
-        reader = csv.reader(csvfile, delimiter='\t')
+    with open('./data_distance/distance_' + column_name + ".csv", newline='') as csv_file:
+        reader = csv.reader(csv_file, delimiter='\t')
 
         for row in reader:
             distance_dict.update({row[1]: row[2]})
@@ -43,7 +43,7 @@ def load_data(file_name):
                 elif h == 'RACE':
                     v = distance_race.get(v)
                 elif h == 'AGE':
-                    v = distance_age.get(str(v))
+                    v = v
 
                 columns[h].append(v)
     return pd.DataFrame(columns)

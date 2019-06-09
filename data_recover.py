@@ -64,7 +64,7 @@ def load_data(file_name):
                 elif h == 'AGE':
                     ret = []
                     for val in v.split(','):
-                        val_recover = distance_age.get(val)
+                        val_recover = val
                         ret.append(val_recover)
                     v = '{x}-{y}'.format(x=min(ret), y=max(ret))
 

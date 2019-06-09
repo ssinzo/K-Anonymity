@@ -8,15 +8,7 @@ sensitive_column = 'DEATH'
 
 
 def agg_numerical_column(series):
-    val = []
-
-    for x in series.values:
-        x = round(x, 6)
-
-        if x not in val:
-            val.append(x)
-
-    return val
+    return ['{x},{y}'.format(x=series.min(), y=series.max())]
 
 
 def agg_categorical_column(series):
@@ -43,11 +35,8 @@ def build_anonymity_dataset(df, partitions, max_partitions=None):
             aggregations[column] = agg_numerical_column
 
     rows = []
-    save_columns = None
 
     for i, partition in enumerate(partitions):
-        if not i % 1000:
-            print("{t} : Finished {i} partitions...".format(i=i, t=datetime.now().strftime('%H:%M:%S')))
 
         if max_partitions is not None and i > max_partitions:
             break
@@ -56,7 +45,12 @@ def build_anonymity_dataset(df, partitions, max_partitions=None):
 
         sensitive_counts = df.loc[partition].groupby(sensitive_column).agg({sensitive_column: 'count'})
 
-        values = grouped_columns.iloc[0].to_dict()
+        if not i % 1000:
+            print("{t} : Finished {i} partitions...".format(i=i, t=datetime.now().strftime('%H:%M:%S')))
+            print("df partition\n{x}\n".format(x=df.loc[partition]))
+            print("df grouped columns iloc dict\n{x}\n".format(x=grouped_columns.iloc[0].to_dict()))
+
+        values = pd.Series(grouped_columns.iloc[0]).to_dict()
 
         for sensitive_value, count in sensitive_counts[sensitive_column].items():
             if count == 0:
@@ -67,11 +61,11 @@ def build_anonymity_dataset(df, partitions, max_partitions=None):
                 'count': count,
             })
 
-            rows.append(values.copy())
+        rows.append(values.copy())
 
     print("{t} : Finished partitions...".format(t=datetime.now().strftime('%H:%M:%S')))
 
-    return pd.DataFrame(rows, columns=save_columns)
+    return pd.DataFrame(rows)
 
 
 df = pd.read_csv("./data_convert/convert_finalPatientDataSet_20.csv", sep="\t", engine='python')
