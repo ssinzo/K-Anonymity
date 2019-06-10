@@ -14,7 +14,6 @@ def load_distance(column_name):
 
 def load_data(file_name):
 
-    distance_age = load_distance('AGE')
     distance_race = load_distance('RACE')
     distance_ethnicity = load_distance('ETHNICITY')
     distance_gender = load_distance('GENDER')
