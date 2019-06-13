@@ -61,7 +61,7 @@ def build_anonymity_dataset(df, partitions, max_partitions=None):
                 'count': count,
             })
 
-        rows.append(values.copy())
+            rows.append(values.copy())
 
     print("{t} : Finished partitions...".format(t=datetime.now().strftime('%H:%M:%S')))
 

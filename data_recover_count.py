@@ -29,9 +29,6 @@ def recover(filename, dataset):
 
             cnt = int(row[-1])
 
-            if cnt < 3:
-                continue
-
             for i in range(cnt):
                 save_list.append(row[:len(row) - 1])
 
@@ -39,6 +36,6 @@ def recover(filename, dataset):
             wr.writerow(row)
 
 
-mond_dataset_bert = readCSV('./data_recover/recover_bert.csv', sep='\t')
+mond_dataset_bert = readCSV('./data_recover/recover_origin.csv', sep='\t')
 
-recover('recover_bert_wc', mond_dataset_bert)
+recover('recover_origin_wc', mond_dataset_bert)
